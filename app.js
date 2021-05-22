@@ -1,68 +1,67 @@
 // app.js
-const express = require('express')
-const app = express()
-const port = 3000
-let originalUrl = ''
-let logMethod = ''
-let startTime = 0
-let endTime = 0
+const express = require('express');
+const app = express();
+const port = 3000;
 
-function logProcess (req, res, next) {
-  originalUrl = req.originalUrl
-  logMethod = req.method
-  startTime = new Date()
-  next()
-}
+//第一次使用的方法
+// function logProcess(req, res, next) {
+//   originalUrl = req.originalUrl;
+//   logMethod = req.method;
+//   startTime = new Date();
+//   next();
+// }
 
-function endPoint (req, res, next) {
-  endTime = new Date()
-  timeCount = (endTime - startTime).toLocaleString()
-  startTime = startTime.toLocaleString()
-  console.log(
-    `${startTime} | ${logMethod} from ${originalUrl} | total time: ${timeCount} ms`
-  )
-}
+// function endPoint(req, res, next) {
+//   endTime = new Date();
+//   timeCount = (endTime - startTime).toLocaleString();
+//   startTime = startTime.toLocaleString();
+//   console.log(
+//     `${startTime} | ${logMethod} from ${originalUrl} | total time: ${timeCount} ms`
+//   );
+// }
+app.use(function (req, res, next) {
+  const originalUrl = req.originalUrl;
+  const logMethod = req.method;
+  const startTime = new Date();
+  res.on('finish', () => {
+    const endTime = new Date();
+    timeCount = (endTime - startTime).toLocaleString();
+    console.log(
+      `${startTime.toLocaleString()} | ${logMethod} from ${originalUrl} | total time: ${timeCount} ms`
+    );
+  });
+  next();
+});
 
-app.get(
-  '/',
-  logProcess,
-  (req, res, next) => {
-    res.send('列出全部 Todo')
-    next()
-  },
-  endPoint
-)
+app.get('/', (req, res) => {
+  res.send('列出全部 Todo');
+  //next('route');
+});
 
-app.get(
-  '/new',
-  logProcess,
-  (req, res, next) => {
-    res.send('新增 Todo 頁面')
-    next()
-  },
-  endPoint
-)
+app.get('/new', (req, res) => {
+  res.send('新增 Todo 頁面');
+  //next('route');
+});
 
-app.get(
-  '/:id',
-  logProcess,
-  (req, res, next) => {
-    res.send('顯示一筆 Todo')
-    next()
-  },
-  endPoint
-)
+app.get('/:id', (req, res) => {
+  res.send('顯示一筆 Todo');
+  //next('route');
+});
 
-app.post(
-  '/',
-  logProcess,
-  (req, res, next) => {
-    res.send('新增一筆  Todo')
-    next()
-  },
-  endPoint
-)
+app.post('/', (req, res) => {
+  res.send('新增一筆  Todo');
+  //next('route');
+});
+
+// app.use(function (req, res) {
+//   endTime = new Date();
+//   timeCount = (endTime - startTime).toLocaleString();
+//   startTime = startTime.toLocaleString();
+//   console.log(
+//     `${startTime} | ${logMethod} from ${originalUrl} | total time: ${timeCount} ms`
+//   );
+// });
 
 app.listen(port, () => {
-  console.log(`App running on port ${port}`)
-})
+  console.log(`App running on port http://localhost:${port}`);
+});

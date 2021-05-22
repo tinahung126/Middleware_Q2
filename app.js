@@ -3,26 +3,11 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-//第一次使用的方法
-// function logProcess(req, res, next) {
-//   originalUrl = req.originalUrl;
-//   logMethod = req.method;
-//   startTime = new Date();
-//   next();
-// }
-
-// function endPoint(req, res, next) {
-//   endTime = new Date();
-//   timeCount = (endTime - startTime).toLocaleString();
-//   startTime = startTime.toLocaleString();
-//   console.log(
-//     `${startTime} | ${logMethod} from ${originalUrl} | total time: ${timeCount} ms`
-//   );
-// }
 app.use(function (req, res, next) {
   const originalUrl = req.originalUrl;
   const logMethod = req.method;
   const startTime = new Date();
+  //next()
   res.on('finish', () => {
     const endTime = new Date();
     timeCount = (endTime - startTime).toLocaleString();

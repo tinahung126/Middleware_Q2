@@ -21,27 +21,15 @@ app.get('/', (req, res) => {
 
 app.get('/new', (req, res) => {
   res.send('新增 Todo 頁面');
-  //next('route');
 });
 
 app.get('/:id', (req, res) => {
   res.send('顯示一筆 Todo');
-  //next('route');
 });
 
 app.post('/', (req, res) => {
   res.send('新增一筆  Todo');
-  //next('route');
 });
-
-// app.use(function (req, res) {
-//   endTime = new Date();
-//   timeCount = (endTime - startTime).toLocaleString();
-//   startTime = startTime.toLocaleString();
-//   console.log(
-//     `${startTime} | ${logMethod} from ${originalUrl} | total time: ${timeCount} ms`
-//   );
-// });
 
 app.listen(port, () => {
   console.log(`App running on port http://localhost:${port}`);

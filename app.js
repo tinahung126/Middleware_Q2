@@ -7,20 +7,16 @@ app.use(function (req, res, next) {
   const originalUrl = req.originalUrl;
   const logMethod = req.method;
   const startTime = new Date();
-  //next()
-  res.on('finish', () => {
-    const endTime = new Date();
-    timeCount = (endTime - startTime).toLocaleString();
-    console.log(
-      `${startTime.toLocaleString()} | ${logMethod} from ${originalUrl} | total time: ${timeCount} ms`
-    );
-  });
   next();
+  const endTime = new Date();
+  const timeCount = (endTime - startTime).toLocaleString();
+  console.log(
+    `${startTime.toLocaleString()} | ${logMethod} from ${originalUrl} | total time: ${timeCount} ms`
+  );
 });
 
 app.get('/', (req, res) => {
   res.send('列出全部 Todo');
-  //next('route');
 });
 
 app.get('/new', (req, res) => {
